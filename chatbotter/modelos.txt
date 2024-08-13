@@ -1,44 +1,14 @@
-import nltk
-from nltk.chat.util import Chat, reflections
-import json
-import os
-import pyfiglet
-import datetime
-
-# Caminho para o arquivo de aprendizado
-file_path = 'chatbot_training.json'
-
-def load_training_data():
-    """Carrega os dados de treinamento do chatbot a partir de um arquivo JSON."""
-    if os.path.exists(file_path):
-        with open(file_path, 'r') as file:
-            return json.load(file)
-    return []
-
-def save_training_data(pairs):
-    """Salva os dados de treinamento do chatbot em um arquivo JSON."""
-    with open(file_path, 'w') as file:
-        json.dump(pairs, file, indent=4)
-
-def get_current_time():
-    """Retorna a hora atual em formato de string."""
-    now = datetime.datetime.now()
-    return now.strftime("%H:%M:%S")
-
-def open_chrome_and_youtube():
-    """Abra uma guia do YouTube."""
-    url = "https://www.youtube.com"
-    webbrowser.get('chrome').open(url)
-
-# Dados de treinamento iniciais
-initial_pairs = [
-    # Saudações
+   # Saudações
     [r"oi|olá|hey|hello", ["Olá!", "Oi! Como posso ajudar você hoje?", "Hey!"]],
     [r"qual é o seu nome?", ["Meu nome é Chatbot. E o seu?", "Eu sou o Chatbot!"]],
     [r"como você está?", ["Estou ótimo! E você?", "Estou bem, obrigado por perguntar!"]],
     [r"adeus|tchau", ["Tchau! Espero falar com você novamente.", "Até mais!"]],
+
+    # Perguntas sobre habilidades e funções
     [r"qual é a sua função?|o que você faz?", ["Eu sou um chatbot projetado para ajudar com perguntas e conversar com você.", "Minha função é ajudar e responder suas perguntas."]],
     [r"quais são suas habilidades?", ["Eu posso responder perguntas básicas e conversar com você sobre vários tópicos.", "Eu sou bom em responder perguntas gerais e manter uma conversa."]],
+
+    # Perguntas e respostas sobre Python
     [r"o que é uma variável em Python?", ["Uma variável em Python é um espaço na memória para armazenar dados. Exemplo: `x = 10` onde `x` é a variável e `10` é o valor armazenado."]],
     [r"como criar uma função em Python?", ["Para criar uma função em Python, use a palavra-chave `def`. Exemplo:\n`def minha_funcao():\n    print('Olá!')`"]],
     [r"o que é uma lista em Python?", ["Uma lista em Python é uma coleção de itens que podem ser de diferentes tipos. Exemplo: `minha_lista = [1, 2, 3, 'texto']`."]],
@@ -49,6 +19,8 @@ initial_pairs = [
     [r"o que é um loop while em Python?", ["Um loop `while` em Python executa um bloco de código enquanto uma condição é verdadeira. Exemplo:\n`i = 0\nwhile i < 5:\n    print(i)\n    i += 1`"]],
     [r"como definir uma classe em Python?", ["Para definir uma classe em Python, use a palavra-chave `class`. Exemplo:\n`class Pessoa:\n    def __init__(self, nome):\n        self.nome = nome`"]],
     [r"o que é uma tupla em Python?", ["Uma tupla em Python é uma coleção imutável de itens. Exemplo: `minha_tupla = (1, 2, 3, 'texto')`"]],
+
+    # Perguntas e respostas gerais
     [r"qual é a sua idade?", ["Eu sou um programa de computador, então não tenho idade.", "Como sou um chatbot, não tenho uma idade física."]],
     [r"o que você gosta de fazer?", ["Eu gosto de conversar e ajudar as pessoas!", "Meu trabalho é ajudar e responder suas perguntas."]],
     [r"você pode me dar uma piada?", ["Claro! Por que o computador foi ao médico? Porque ele estava com um vírus!", "Qual é o café preferido dos programadores? O Java!"]],
@@ -101,11 +73,13 @@ initial_pairs = [
     [r"como remover espaços em branco de uma string?", ["Exemplo de remoção:\n```\nstring = '   texto com espaços   '\nsem_espacos = string.strip()\nprint('Texto sem espaços:', sem_espacos)\n```"]],
     [r"como fazer uma escolha aleatória de uma lista?", ["Exemplo de escolha:\n```\nimport random\nlista = ['a', 'b', 'c', 'd']\nescolha = random.choice(lista)\nprint('Escolha aleatória:', escolha)\n```"]],
     [r"como criar uma lista de números de 1 a 10?", ["Exemplo de lista:\n```\nlista = list(range(1, 11))\nprint('Lista de 1 a 10:', lista)\n```"]],
+    # Perguntas sobre boas práticas e conceitos
     [r"o que são boas práticas de programação?", ["Boas práticas incluem escrever código limpo e legível, usar comentários, seguir padrões de codificação e testar o código regularmente."]],
     [r"por que é importante comentar o código?", ["Comentar o código ajuda a tornar o código mais legível e compreensível para outros desenvolvedores, facilitando a manutenção e atualização."]],
     [r"o que é refatoração de código?", ["Refatoração é o processo de melhorar a estrutura do código sem alterar seu comportamento externo, para torná-lo mais eficiente e legível."]],
     [r"o que são testes unitários?", ["Testes unitários são testes que verificam o funcionamento de pequenas partes do código (unidades), como funções ou métodos, para garantir que eles funcionem como esperado."]],
     [r"como funciona o gerenciamento de pacotes em Python?", ["O gerenciamento de pacotes em Python é feito usando ferramentas como `pip`, que permitem instalar, atualizar e remover pacotes e bibliotecas."]],
+    # Perguntas e respostas sobre lógica de programação
     [r"como usar a lógica condicional em Python?", ["Exemplo de lógica condicional:\n```\nidade = int(input('Digite sua idade: '))\nif idade >= 18:\n    print('Você é adulto')\nelse:\n    print('Você é menor de idade')\n```"]],
     [r"como fazer uma verificação de erro em Python?", ["Exemplo de verificação de erro:\n```\ntry:\n    numero = int(input('Digite um número: '))\nexcept ValueError:\n    print('Entrada inválida. Digite um número inteiro.')\n```"]],
     [r"como criar um loop de repetição em Python?", ["Exemplo de loop de repetição:\n```\nfor i in range(5):\n    print('Repetição', i)\n```"]],
@@ -410,48 +384,3 @@ initial_pairs = [
     [r"Qual é a diferença entre uma rede local e uma rede de longa distância?|O que distingue rede local de rede de longa distância?", ["Rede local (LAN) cobre uma área geograficamente pequena, como um escritório, enquanto rede de longa distância (WAN) cobre áreas geograficamente maiores, como cidades ou países.", "LAN é para comunicação local, WAN é para comunicação de longa distância e interconexão entre redes."]],
     [r"Qual é a importância da proteção de dados em nuvem?|Por que a proteção de dados em nuvem é essencial?", ["Proteção de dados em nuvem garante que dados armazenados em serviços de nuvem sejam seguros contra acessos não autorizados e vazamentos, mantendo a privacidade e a integridade.", "Ajuda a proteger dados sensíveis e a garantir a conformidade com regulamentações e políticas de segurança."]],
 ]
-
-def print_welcome_banner():
-    """Imprime um banner de boas-vindas usando Pyfiglet."""
-    ascii_banner = pyfiglet.figlet_format("Chat Trainee", font="standard")  # Substitua "standard" por "helvetica" se disponível
-    print(ascii_banner)
-    print("Olá! Sou o Chat Trainee. Como posso ajudá-lo hoje?")
-
-def chatbot():
-    print_welcome_banner()
-
-    # Carregar dados de treinamento existentes ou usar dados iniciais
-    pairs = load_training_data() or initial_pairs
-    chat = Chat(pairs, reflections)
-
-    while True:
-        try:
-            user_input = input("Você: ")
-            if user_input.lower() in ["adeus", "tchau", "bye"]:
-                print("Chatbot: Tchau! Até a próxima.")
-                break
-
-            if "hora" in user_input.lower():
-                resposta = f"A hora atual é {get_current_time()}."
-            elif "youtube" in user_input.lower():
-                open_chrome_and_youtube()
-                resposta = "Abrindo o YouTube no Google Chrome."
-            else:
-                resposta = chat.respond(user_input)
-                if not resposta:
-                    resposta = "Desculpe, não entendi o que você quis dizer. Pode reformular?"
-
-                    # Treinar o chatbot com a nova pergunta e resposta
-                    new_response = input("Chatbot: Não entendi. Como você responderia? ")
-                    new_pair = [user_input, [new_response]]
-                    pairs.append(new_pair)
-                    save_training_data(pairs)
-                    chat = Chat(pairs, reflections)
-
-            print("Chatbot:", resposta)
-        except KeyboardInterrupt:
-            print("\nChatbot: Tchau! Até mais.")
-            break
-
-
-chatbot()
